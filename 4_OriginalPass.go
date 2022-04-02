@@ -67,18 +67,7 @@ type Descending []byte
 
 func (s Descending) Len() int           { return len(s) }
 func (s Descending) Swap(i, j int)      { s[i], s[j] = s[j], s[i] }
-func (s Descending) Less(i, j int) bool { return s[i] < s[j] }
-
-func isNormStr(str string) bool {
-	lastVal := str[0]
-	for i := range str {
-		if lastVal != str[i] {
-			return true
-		}
-		lastVal = str[i]
-	}
-	return false
-}
+func (s Descending) Less(i, j int) bool { return s[i] > s[j] }
 
 func main() {
 	var n int
@@ -93,17 +82,17 @@ func main() {
 	}
 
 	for _, val := range inpStr {
-		sort.Sort(Ascending(val.f))
-		sort.Sort(Descending(val.s))
+		f := []byte(val.f)
+		s := []byte(val.s)
+		sort.Sort(Ascending(f))
+		sort.Sort(Descending(s))
+		val.f = string(f)
+		val.s = string(s)
 
-		isNormL := isNormStr(val.f)
-		isNormR := isNormStr(val.s)
-		isEqualsStr := len(val.s) == len(val.f)
+		//fmt.Println( val.f , val.s)
+		//fmt.Println( val.f < val.s, isNormL, isNormR, isEqualsStr)
 
-		fmt.Println( val.f , val.s)
-		fmt.Println( val.f < val.s, isNormL, isNormR, isEqualsStr)
-
-		if val.f < val.s && isNormL && isNormR && isEqualsStr{
+		if val.f < val.s {
 			fmt.Println("Yes")
 		} else {
 			fmt.Println("No")
